@@ -76,25 +76,6 @@ CREATE TABLE Cita (
 );
 
 
--- Tabla Producto
-DROP TABLE IF EXISTS Producto CASCADE;
-CREATE TABLE Producto (
-    id_producto SERIAL PRIMARY KEY,
-    nombre_producto VARCHAR(50) NOT NULL,
-	precio_producto INT NOT NULL
-);
-
-
--- Tabla Servicio
-DROP TABLE IF EXISTS Servicio CASCADE;
-CREATE TABLE Servicio (
-    id_servicio SERIAL PRIMARY KEY,
-    nombre_servicio VARCHAR(50) NOT NULL,
-    precio_servicio INT NOT NULL,
-    tipo_servicio VARCHAR(20) NOT NULL  -- (CORTE, BARBA, TINTE)
-);
-
-
 -- Tabla Pago
 DROP TABLE IF EXISTS Pago CASCADE;
 CREATE TABLE Pago (
@@ -108,6 +89,26 @@ DROP TABLE IF EXISTS Detalle CASCADE;
 CREATE TABLE Detalle (
     id_detalle SERIAL PRIMARY KEY,
     id_pago INT REFERENCES Pago(id_pago),
-    id_servicio INT REFERENCES Servicio(id_servicio),
 	id_cita INT REFERENCES Cita(id_cita)
+);
+
+
+-- Tabla Producto
+DROP TABLE IF EXISTS Producto CASCADE;
+CREATE TABLE Producto (
+    id_producto SERIAL PRIMARY KEY,
+	id_detalle INT REFERENCES Detalle(id_detalle),
+    nombre_producto VARCHAR(50) NOT NULL,
+	precio_producto INT NOT NULL
+);
+
+
+-- Tabla Servicio
+DROP TABLE IF EXISTS Servicio CASCADE;
+CREATE TABLE Servicio (
+    id_servicio SERIAL PRIMARY KEY,
+	id_detalle INT REFERENCES Detalle(id_detalle),
+    nombre_servicio VARCHAR(50) NOT NULL,
+    precio_servicio INT NOT NULL,
+    tipo_servicio VARCHAR(20) NOT NULL  -- (CORTE, BARBA, TINTE)
 );
